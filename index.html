@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Print Studio | Diseños e Impresión 3D</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f97316', // Naranja 3D
+                        darkbg: '#0f172a',
+                        cardbg: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; }
+    </style>
+</head>
+<body class="bg-darkbg text-slate-100 min-h-screen flex flex-col selection:bg-primary selection:text-white">
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="sticky top-0 z-50 bg-darkbg/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-amber-500 flex items-center justify-center shadow-lg shadow-primary/30">
+                    <i class="fa-solid fa-cube text-white text-xl"></i>
+                </div>
+                <span id="brand-name" class="text-xl font-bold tracking-tight text-white">3D Print <span class="text-primary">Studio</span></span>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8 font-medium">
+                <a href="#catalogo" class="hover:text-primary transition">Catálogo Wallapop</a>
+                <a href="#personalizados" class="hover:text-primary transition">Diseños a Medida</a>
+                <a href="#taller" class="hover:text-primary transition">El Taller</a>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button onclick="openAdmin()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-sm font-medium border border-slate-700 transition flex items-center gap-2">
+                    <i class="fa-solid fa-gear text-primary"></i> <span class="hidden sm:inline">Panel Admin</span>
+                </button>
+                <a id="nav-whatsapp-btn" href="https://wa.me/34600000000?text=Hola,%20quiero%20consultar%20sobre%20una%20impresión%203D" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-emerald-600/20 transition flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> <span>WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECCIÓN HERO -->
+    <header class="relative overflow-hidden py-20 lg:py-28 bg-gradient-to-b from-slate-900 to-darkbg border-b border-slate-800/60">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#f97316_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20 mb-6">
+                <i class="fa-solid fa-bolt"></i> Impresión 3D Profesional & Personalizada
+            </span>
+            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-3xl mx-auto leading-tight">
+                Tus ideas hechas realidad capa a capa
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto font-light">
+                Explora productos únicos listos para comprar en Wallapop o pídenos un diseño 100% personalizado coordinado directamente por WhatsApp.
+            </p>
+            <div class="mt-10 flex flex-wrap justify-center gap-4">
+                <a href="#catalogo" class="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-4 rounded-xl shadow-xl shadow-primary/25 transition transform hover:-translate-y-0.5">
+                    Ver Catálogo Wallapop
+                </a>
+                <a href="#personalizados" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold px-8 py-4 rounded-xl border border-slate-700 transition">
+                    Pedir Diseño Personalizado
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-grow">
+        
+        <!-- CATÁLOGO WALLAPOP -->
+        <section id="catalogo" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight">Catálogo Disponible</h2>
+                    <p class="text-slate-400 mt-2">Productos listos para entrega. Al hacer clic irás directamente a nuestro perfil de Wallapop.</p>
+                </div>
+                <!-- Filtros de categoría -->
+                <div class="mt-6 md:mt-0 flex flex-wrap gap-2" id="category-filters">
+                    <button onclick="filterProducts('all')" class="category-btn px-4 py-2 rounded-xl text-sm font-medium bg-primary text-white transition">Todos</button>
+                    <button onclick="filterProducts('Gaming')" class="category-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Gaming</button>
+                    <button onclick="filterProducts('Soportes')" class="category-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Soportes</button>
+                    <button onclick="filterProducts('Decoración')" class="category-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Decoración</button>
+                    <button onclick="filterProducts('Llaveros')" class="category-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Llaveros</button>
+                </div>
+            </div>
+
+            <!-- Grid de Productos -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Se inyecta por JavaScript -->
+            </div>
+        </section>
+
+        <!-- SECCIÓN DISEÑOS PERSONALIZADOS -->
+        <section id="personalizados" class="py-20 bg-slate-900/60 border-t border-b border-slate-800/80">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-primary font-semibold text-sm tracking-wider uppercase">Hecho a medida</span>
+                    <h2 class="text-3xl font-bold text-white mt-1">¿Tienes una idea en mente?</h2>
+                    <p class="text-slate-400 mt-2">Rellena este formulario rápido. Generaremos un mensaje listo para coordinar tu presupuesto y diseño por WhatsApp al instante.</p>
+                </div>
+
+                <div class="bg-cardbg p-8 sm:p-10 rounded-3xl border border-slate-700/80 shadow-2xl">
+                    <form id="custom-order-form" onsubmit="sendWhatsAppOrder(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Tu Nombre</label>
+                                <input type="text" id="cust-name" required placeholder="Ej. Carlos" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary transition">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Teléfono de contacto</label>
+                                <input type="tel" id="cust-phone" required placeholder="Ej. 600000000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary transition">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Material preferido</label>
+                                <select id="cust-material" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary transition">
+                                    <option value="PLA (Estándar/Decorativo)">PLA (Estándar)</option>
+                                    <option value="PETG (Resistente/Duradero)">PETG (Resistente)</option>
+                                    <option value="ABS (Técnico)">ABS (Técnico)</option>
+                                    <option value="No lo sé / Aconsejarme">No lo sé / Aconsejarme</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Color deseado</label>
+                                <input type="text" id="cust-color" placeholder="Ej. Negro mate, Blanco, Rojo..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary transition">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Cantidad</label>
+                                <input type="number" id="cust-qty" min="1" value="1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Descripción del proyecto o diseño</label>
+                            <textarea id="cust-desc" rows="4" required placeholder="Describe qué quieres imprimir, medidas aproximadas, si tienes un enlace de Thingiverse/Printables o Tinkercad..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary transition"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-4 rounded-xl shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-3 text-lg">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i> Enviar pedido a WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOBRE EL TALLER -->
+        <section id="taller" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-white tracking-tight">Calidad y Precisión Garantizada</h2>
+            <p class="text-slate-400 mt-3 max-w-2xl mx-auto">Trabajamos con impresoras 3D calibradas al milímetro para ofrecerte acabados limpios, resistentes y adaptados exactamente a lo que buscas.</p>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-12 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white">
+                    <i class="fa-solid fa-cube"></i>
+                </div>
+                <span class="font-bold text-white">3D Print Studio</span>
+            </div>
+            <p>© 2026 3D Print Studio. Diseños personalizados y Wallapop.</p>
+            <div class="flex space-x-4">
+                <button onclick="openAdmin()" class="hover:text-primary transition">Gestionar Web</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE CONTRASEÑA -->
+    <div id="password-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-md rounded-3xl shadow-2xl p-6 sm:p-8">
+            <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-lock text-primary"></i> Acceso Restringido</h3>
+            <p class="text-slate-400 text-sm mb-6">Introduce la contraseña de administración para gestionar la web.</p>
+            <form onsubmit="verifyPassword(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="admin-pass-input" required placeholder="Contraseña (por defecto: 1234)" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-primary">
+                </div>
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 bg-primary hover:bg-primary/95 text-white py-3 rounded-xl font-semibold text-sm transition">Entrar</button>
+                    <button type="button" onclick="closeModals()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-3 rounded-xl text-sm transition">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PANEL DE ADMINISTRACIÓN -->
+    <div id="admin-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden my-8">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/50">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-gear text-primary"></i> Panel de Administración</h3>
+                <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="p-6 sm:p-8 space-y-8 max-h-[80vh] overflow-y-auto">
+                <!-- Configuración General -->
+                <div class="bg-cardbg p-6 rounded-2xl border border-slate-800">
+                    <h4 class="text-lg font-semibold text-white mb-4">Configuración del Negocio</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Nombre del Negocio</label>
+                            <input type="text" id="setting-brand" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">WhatsApp (ej. 34600000000)</label>
+                            <input type="text" id="setting-whatsapp" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Nueva Contraseña Admin</label>
+                            <input type="text" id="setting-password" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" placeholder="Dejar en blanco para no cambiar">
+                        </div>
+                    </div>
+                    <button onclick="saveSettings()" class="mt-4 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-xl text-sm font-medium transition">Guardar Configuración</button>
+                </div>
+
+                <!-- Añadir / Editar Producto -->
+                <div class="bg-cardbg p-6 rounded-2xl border border-slate-800">
+                    <h4 id="form-title" class="text-lg font-semibold text-white mb-4">Añadir Nuevo Producto al Catálogo</h4>
+                    <form id="product-form" onsubmit="saveProduct(event)" class="space-y-4">
+                        <input type="hidden" id="prod-id">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Nombre del Producto</label>
+                                <input type="text" id="prod-name" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" placeholder="Ej. Soporte Mando PS5">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Precio (€)</label>
+                                <input type="number" step="0.01" id="prod-price" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" placeholder="14.99">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Categoría</label>
+                                <select id="prod-category" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm">
+                                    <option value="Gaming">Gaming</option>
+                                    <option value="Soportes">Soportes</option>
+                                    <option value="Decoración">Decoración</option>
+                                    <option value="Llaveros">Llaveros</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">URL de la Imagen (ej. Unsplash u otro enlace)</label>
+                                <input type="url" id="prod-image" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" placeholder="https://images.unsplash.com/...">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Enlace directo a Wallapop</label>
+                                <input type="url" id="prod-wallapop" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" placeholder="https://wallapop.com/item/...">
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-xl text-sm font-medium transition">Guardar Producto</button>
+                            <button type="button" onclick="resetProductForm()" id="cancel-edit-btn" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-sm transition">Cancelar Edición</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Lista de Productos Existentes -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Productos Actuales en Catálogo</h4>
+                    <div id="admin-products-list" class="space-y-3">
+                        <!-- Se llena por JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE FUNCIONAMIENTO -->
+    <script>
+        const defaultProducts = [
+            {
+                id: 1,
+                name: "Soporte Mando y Auriculares Gaming",
+                price: 18.50,
+                category: "Gaming",
+                image: "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?q=80&w=600&auto=format&fit=crop",
+                wallapop: "https://es.wallapop.com"
+            },
+            {
+                id: 2,
+                name: "Soporte Minimalista Smartphone",
+                price: 9.00,
+                category: "Soportes",
+                image: "https://images.unsplash.com/photo-1586105251261-72a756497a11?q=80&w=600&auto=format&fit=crop",
+                wallapop: "https://es.wallapop.com"
+            },
+            {
+                id: 3,
+                name: "Maceta Geométrica Decorativa",
+                price: 12.00,
+                category: "Decoración",
+                image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=600&auto=format&fit=crop",
+                wallapop: "https://es.wallapop.com"
+            },
+            {
+                id: 4,
+                name: "Llavero Personalizado Logo",
+                price: 5.00,
+                category: "Llaveros",
+                image: "https://images.unsplash.com/photo-1533750349077-cdcd106d29b2?q=80&w=600&auto=format&fit=crop",
+                wallapop: "https://es.wallapop.com"
+            }
+        ];
+
+        let state = {
+            brand: "3D Print Studio",
+            whatsapp: "34600000000",
+            adminPass: "1234",
+            products: JSON.parse(localStorage.getItem('3d_products')) || defaultProducts
+        };
+
+        let currentFilter = 'all';
+
+        function initApp() {
+            const savedSettings = JSON.parse(localStorage.getItem('3d_settings'));
+            if (savedSettings) {
+                state.brand = savedSettings.brand || state.brand;
+                state.whatsapp = savedSettings.whatsapp || state.whatsapp;
+                state.adminPass = savedSettings.adminPass || state.adminPass;
+            }
+
+            document.getElementById('setting-brand').value = state.brand;
+            document.getElementById('setting-whatsapp').value = state.whatsapp;
+            document.getElementById('brand-name').innerHTML = `${state.brand.split(' ')[0]} <span class="text-primary">${state.brand.split(' ').slice(1).join(' ')}</span>`;
+            document.getElementById('nav-whatsapp-btn').href = `https://wa.me/${state.whatsapp}?text=Hola,%20quiero%20consultar%20sobre%20una%20impresión%203D`;
+
+            renderProducts();
+            renderAdminProductsList();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            const filtered = currentFilter === 'all' 
+                ? state.products 
+                : state.products.filter(p => p.category === currentFilter);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400">No hay productos en esta categoría.</div>`;
+                return;
+            }
+
+            filtered.forEach(p => {
+                grid.innerHTML += `
+                    <div class="bg-cardbg rounded-3xl border border-slate-800 overflow-hidden shadow-xl hover:border-slate-700 transition group flex flex-col">
+                        <div class="h-64 overflow-hidden relative bg-slate-900">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-4 left-4 bg-darkbg/80 backdrop-blur-md text-primary text-xs font-semibold px-3 py-1 rounded-full border border-slate-700">${p.category}</span>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-primary transition">${p.name}</h3>
+                                <div class="mt-2 text-2xl font-extrabold text-primary">${p.price.toFixed(2)} €</div>
+                            </div>
+                            <div class="mt-6">
+                                <a href="${p.wallapop}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/10">
+                                    <i class="fa-solid fa-bag-shopping"></i> Comprar en Wallapop
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterProducts(category) {
+            currentFilter = category;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+                if((category === 'all' && btn.textContent === 'Todos') || btn.textContent === category) {
+                    btn.classList.remove('bg-slate-800', 'text-slate-300');
+                    btn.classList.add('bg-primary', 'text-white');
+                }
+            });
+            renderProducts();
+        }
+
+        function sendWhatsAppOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const material = document.getElementById('cust-material').value;
+            const color = document.getElementById('cust-color').value || 'No especificado';
+            const qty = document.getElementById('cust-qty').value;
+            const desc = document.getElementById('cust-desc').value;
+
+            const message = `Hola! Soy *${name}* (Tel: ${phone}). Me gustaría encargar un diseño personalizado en impresión 3D:%0A%0A*Material:* ${material}%0A*Color:* ${color}%0A*Cantidad:* ${qty}%0A*Descripción / Idea:* ${desc}`;
+            
+            window.open(`https://wa.me/${state.whatsapp}?text=${message}`, '_blank');
+        }
+
+        function openAdmin() {
+            document.getElementById('password-modal').classList.remove('hidden');
+            document.getElementById('admin-pass-input').value = '';
+        }
+
+        function verifyPassword(e) {
+            e.preventDefault();
+            const pass = document.getElementById('admin-pass-input').value;
+            if (pass === state.adminPass) {
+                document.getElementById('password-modal').classList.add('hidden');
+                document.getElementById('admin-modal').classList.remove('hidden');
+            } else {
+                alert('Contraseña incorrecta.');
+            }
+        }
+
+        function closeModals() {
+            document.getElementById('password-modal').classList.add('hidden');
+            document.getElementById('admin-modal').classList.add('hidden');
+        }
+
+        function saveSettings() {
+            state.brand = document.getElementById('setting-brand').value;
+            state.whatsapp = document.getElementById('setting-whatsapp').value;
+            const newPass = document.getElementById('setting-password').value;
+            if (newPass) {
+                state.adminPass = newPass;
+            }
+            localStorage.setItem('3d_settings', JSON.stringify({ brand: state.brand, whatsapp: state.whatsapp, adminPass: state.adminPass }));
+            alert('¡Configuración guardada con éxito!');
+            initApp();
+            closeModals();
+        }
+
+        function saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('prod-id').value;
+            const name = document.getElementById('prod-name').value;
+            const price = parseFloat(document.getElementById('prod-price').value);
+            const category = document.getElementById('prod-category').value;
+            const image = document.getElementById('prod-image').value;
+            const wallapop = document.getElementById('prod-wallapop').value;
+
+            if (id) {
+                const idx = state.products.findIndex(p => p.id == id);
+                if (idx !== -1) {
+                    state.products[idx] = { id: Number(id), name, price, category, image, wallapop };
+                }
+            } else {
+                const newProduct = {
+                    id: Date.now(),
+                    name,
+                    price,
+                    category,
+                    image,
+                    wallapop
+                };
+                state.products.push(newProduct);
+            }
+
+            localStorage.setItem('3d_products', JSON.stringify(state.products));
+            resetProductForm();
+            renderProducts();
+            renderAdminProductsList();
+        }
+
+        function editProduct(id) {
+            const p = state.products.find(item => item.id == id);
+            if (!p) return;
+            document.getElementById('prod-id').value = p.id;
+            document.getElementById('prod-name').value = p.name;
+            document.getElementById('prod-price').value = p.price;
+            document.getElementById('prod-category').value = p.category;
+            document.getElementById('prod-image').value = p.image;
+            document.getElementById('prod-wallapop').value = p.wallapop;
+
+            document.getElementById('form-title').textContent = "Editar Producto";
+            document.getElementById('cancel-edit-btn').classList.remove('hidden');
+        }
+
+        function deleteProduct(id) {
+            if(confirm('¿Estás seguro de eliminar este producto?')) {
+                state.products = state.products.filter(p => p.id != id);
+                localStorage.setItem('3d_products', JSON.stringify(state.products));
+                renderProducts();
+                renderAdminProductsList();
+            }
+        }
+
+        function resetProductForm() {
+            document.getElementById('product-form').reset();
+            document.getElementById('prod-id').value = '';
+            document.getElementById('form-title').textContent = "Añadir Nuevo Producto al Catálogo";
+            document.getElementById('cancel-edit-btn').classList.add('hidden');
+        }
+
+        function renderAdminProductsList() {
+            const list = document.getElementById('admin-products-list');
+            list.innerHTML = '';
+            state.products.forEach(p => {
+                list.innerHTML += `
+                    <div class="flex items-center justify-between bg-slate-900 p-3 rounded-xl border border-slate-800">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.image}" class="w-12 h-12 object-cover rounded-lg">
+                            <div>
+                                <h5 class="font-semibold text-white text-sm">${p.name}</h5>
+                                <p class="text-xs text-primary font-medium">${p.price.toFixed(2)} € • ${p.category}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="editProduct(${p.id})" class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-2 rounded-lg text-xs transition"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteProduct(${p.id})" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 p-2 rounded-lg text-xs transition"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
