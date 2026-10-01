@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title id="page-title">Ducksy 3D — Tus ideas, hechas realidad</title>
+<meta name="description" content="Ducksy 3D: impresión 3D personalizada y productos únicos.[cite: 1]">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--y:#FFD21F;--yd:#E6AE00;--b:#171717;--cream:#fffdf3;--muted:#666;--line:#eee4b7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--b);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+a{text-decoration:none;color:inherit}.wrap{max-width:1120px;margin:auto;padding:0 22px}
+header{position:sticky;top:0;z-index:50;background:#ffffffee;backdrop-filter:blur(12px);border-bottom:1px solid #eee}
+.nav{height:68px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:950;font-size:1.18rem}
+.duck{width:40px;height:40px;border-radius:13px;background:var(--y);display:grid;place-items:center;font-size:23px;box-shadow:0 4px 0 var(--yd)}
+.links{display:flex;gap:20px;font-weight:800;font-size:.9rem;align-items:center}.links a:hover{color:#a97900}.menu{display:none;border:0;background:var(--y);border-radius:10px;padding:8px 11px;font-size:18px;cursor:pointer}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:45px;align-items:center;padding:82px 0 75px}
+.badge{display:inline-block;background:#fff1a0;border:1px solid #f1d445;border-radius:999px;padding:7px 12px;font-size:.82rem;font-weight:900}
+h1{font-size:clamp(2.8rem,6vw,6rem);line-height:.9;letter-spacing:-.07em;margin:20px 0}.yellow{color:#d09a00}.lead{color:var(--muted);font-size:1.15rem;max-width:600px}
+.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{display:inline-block;padding:13px 19px;border:2px solid var(--b);border-radius:14px;font-weight:900;transition:.18s;cursor:pointer}.primary{background:var(--y);box-shadow:0 4px 0 var(--b)}.secondary{background:#fff}.btn:hover{transform:translateY(-2px)}
+.hero-card{min-height:380px;border:3px solid var(--b);border-radius:34px;background:var(--y);box-shadow:10px 10px 0 var(--b);display:grid;place-items:center;position:relative;overflow:hidden}.hero-card:before{content:"";position:absolute;width:190px;height:190px;background:#fff6b8;border-radius:50%;top:-65px;right:-45px}.hero-card:after{content:"";position:absolute;width:100px;height:100px;background:#fff6b8;border-radius:50%;bottom:-40px;left:-25px}
+.bigduck{font-size:140px;filter:drop-shadow(0 12px 0 #0002);animation:float 3s ease-in-out infinite;z-index:1}@keyframes float{50%{transform:translateY(-12px) rotate(2deg)}}
+section{padding:60px 0}.heading{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:28px}.heading h2{font-size:2.4rem;line-height:1;margin:0;letter-spacing:-.04em}.heading p{max-width:550px;color:var(--muted);margin:0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;transition:.2s;display:flex;flex-direction:column;justify-content:space-between}.card:hover{transform:translateY(-5px);box-shadow:0 14px 30px #3b300012}
+.pic{height:180px;border-radius:16px;background:#fff4a8;display:grid;place-items:center;font-size:70px;margin-bottom:16px;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover}.card h3{margin:0 0 5px}.card p{margin:0 0 14px;color:var(--muted)}.price{font-weight:950;font-size:1.12rem;margin-bottom:12px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.step{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px}.num{width:35px;height:35px;border-radius:10px;background:var(--y);display:grid;place-items:center;font-weight:950;margin-bottom:18px}.step p{color:var(--muted)}
+.custom{background:var(--b);color:#fff;border-radius:30px;padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:40px}.custom p{color:#cfcfcf}.form{display:grid;gap:12px}.form input,.form textarea,.form select{width:100%;border:1px solid #4b4b4b;background:#252525;color:#fff;padding:13px 14px;border-radius:12px;font:inherit}.form textarea{min-height:120px;resize:vertical}.note{font-size:.8rem;color:#aaa!important}
+footer{border-top:1px solid var(--line);padding:30px 0;color:#777}.foot{display:flex;justify-content:space-between}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(5px);z-index:100;display:none;align-items:center;justify-content:center;padding:15px;}
+.modal-content{background:#fff;color:#171717;border-radius:24px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;padding:25px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);}
+.admin-input{width:100%;border:1px solid #ccc;padding:10px 14px;border-radius:10px;font:inherit;margin-bottom:12px;}
+.admin-btn{background:var(--y);border:2px solid var(--b);padding:8px 16px;border-radius:10px;font-weight:800;cursor:pointer;}
+@media(max-width:960px){.grid{grid-template-columns:repeat(2,1fr);}.steps{grid-template-columns:repeat(2,1fr);}.hero{grid-template-columns:1fr;padding-top:40px;gap:30px;}}
+@media(max-width:768px){.links{display:none;position:absolute;top:68px;left:0;right:0;background:#ffffffe6;backdrop-filter:blur(12px);flex-direction:column;padding:20px;border-bottom:1px solid #eee;box-shadow:0 10px 20px rgba(0,0,0,0.05);}.menu{display:block}.custom{grid-template-columns:1fr;padding:25px;}.heading{flex-direction:column;align-items:start;gap:10px;}}
+@media(max-width:480px){.wrap{padding:0 15px;}.grid{grid-template-columns:1fr;}.steps{grid-template-columns:1fr;}.h1{font-size:2.5rem;}.hero-card{min-height:280px;}.bigduck{font-size:100px;}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+<a class="brand" href="#"><span class="duck">🦆</span><span id="brand-text">Ducksy 3D</span></a>
+<nav class="links">
+    <a href="#productos" onclick="closeMobileMenu()">Productos</a>
+    <a href="#personalizado" onclick="closeMobileMenu()">Personalizado</a>
+    <a href="#como" onclick="closeMobileMenu()">Cómo funciona</a>
+    <a href="#contacto" onclick="closeMobileMenu()">Contacto</a>
+    <button onclick="openAdminModal(); closeMobileMenu();" style="background:var(--y);border:2px solid var(--b);padding:6px 12px;border-radius:10px;font-weight:900;cursor:pointer;font-size:0.85rem;">⚙️ Admin</button>
+</nav>
+<button class="menu" onclick="toggleMenu()">☰</button>
+</div></header>
+
+<main><div class="wrap">
+<section class="hero"><div><span class="badge">🖨️️ IMPRESIÓN 3D · HECHO A TU MEDIDA</span>
+<h1>Tus ideas,<br><span class="yellow">hechas realidad.</span></h1>
+<p class="lead">En <b id="lead-brand">Ducksy 3D</b> convertimos ideas, diseños y pequeños objetos en piezas reales mediante impresión 3D.</p>
+<div class="buttons"><a class="btn primary" href="#productos">Ver productos</a><a class="btn secondary" href="#personalizado">Pedir algo personalizado →</a></div></div>
+<div class="hero-card"><div class="bigduck">🦆</div></div></section>
+
+<section id="productos"><div class="heading"><h2>Productos destacados</h2><p>Una selección de productos disponibles. Haz clic para encargar o ver detalles.</p></div>
+<div class="grid" id="products-grid"></div></section>
+
+<section id="como"><div class="heading"><h2>Así funciona</h2><p>Fácil: tú pones la idea y Ducksy 3D se encarga de darle forma.</p></div>
+<div class="steps">
+    <div class="step"><div class="num">1</div><h3>Cuéntanos</h3><p>Explícanos qué quieres o mándanos tu modelo.</p></div>
+    <div class="step"><div class="num">2</div><h3>Presupuesto</h3><p>Calculamos material, tiempo y precio.</p></div>
+    <div class="step"><div class="num">3</div><h3>Imprimimos</h3><p>Preparamos e imprimimos tu pieza.</p></div>
+    <div class="step"><div class="num">4</div><h3>¡Listo!</h3><p>Te avisamos cuando esté preparada.</p></div>
+</div></section>
+
+<section id="personalizado"><div class="custom">
+<div><span class="badge">✨ HECHO PARA TI</span><h2>¿Tienes una idea?</h2><p>Cuéntanos qué necesitas y estudiaremos el diseño, tamaño y acabado para crear tu pieza.</p><p class="note">Este formulario genera directamente un mensaje de pedido listo para enviar por WhatsApp o contacto directo.</p></div>
+<form class="form" onsubmit="sendWhatsAppOrder(event)">
+    <input id="cust-name" placeholder="Tu nombre" required>
+    <input id="cust-phone" type="tel" placeholder="Tu teléfono" required>
+    <select id="cust-material">
+        <option value="PLA Estándar">Material: PLA Estándar</option>
+        <option value="PETG Resistente">Material: PETG Resistente</option>
+        <option value="Resina Alta Definición">Material: Resina Alta Definición</option>
+    </select>
+    <textarea id="cust-desc" placeholder="¿Qué quieres imprimir? (Medidas, color, detalles...)" required></textarea>
+    <button class="btn primary" type="submit">Pedir presupuesto por WhatsApp →</button>
+</form>
+</div></section>
+
+<section id="contacto"><div class="heading"><h2>Hablemos 👋</h2><p>Ponte en contacto directo con nosotros para resolver cualquier duda.</p></div>
+<div class="buttons">
+    <a id="contacto-email" class="btn primary" href="mailto:34649381051@ejemplo.com">✉️ Email</a>
+    <a id="contacto-wa" class="btn secondary" href="#" target="_blank">💬 WhatsApp Directo</a>
+</div></section>
+</div></main>
+
+<footer><div class="wrap foot"><span id="footer-copy">© 2026 Ducksy 3D</span><span>Hecho con 🦆 + 🖨️</span></div></footer>
+
+<div id="pass-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 380px;">
+        <h3>🔑 Acceso Administrador</h3>
+        <p style="color:#666; font-size:0.9rem; margin-bottom:15px;">Introduce la contraseña</p>
+        <input type="password" id="admin-password-input" class="admin-input" placeholder="Contraseña">
+        <div style="display:flex; gap:10px;">
+            <button onclick="verifyAdmin()" class="admin-btn" style="flex:1;">Entrar</button>
+            <button onclick="closeModals()" style="background:#ddd; border:none; padding:8px 16px; border-radius:10px; cursor:pointer;">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div id="admin-panel-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:12px; margin-bottom:20px;">
+            <h2 style="margin:0; font-size:1.3rem;">⚙️ Panel de Control</h2>
+            <button onclick="closeModals()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+        </div>
+        <div style="background:#fff9d6; border:2px dashed #f1d445; padding:15px; border-radius:14px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+                <strong>Sincronizar con la Web Pública</strong>
+                <p style="margin:4px 0 0; font-size:0.85rem; color:#555;">Descarga el archivo y súbelo a Netlify.</p>
+            </div>
+            <button onclick="exportUpdatedCode()" class="admin-btn" style="background:var(--y);"><i class="fa-solid fa-download"></i> Descargar Web</button>
+        </div>
+        <div style="margin-bottom:20px;">
+            <h4>Configuración General</h4>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <input type="text" id="set-brand" class="admin-input">
+                <input type="text" id="set-whatsapp" class="admin-input">
+            </div>
+            <button onclick="saveSettings()" class="admin-btn" style="font-size:0.85rem;">Guardar Ajustes</button>
+        </div>
+        <div style="border-top:1px solid #eee; padding-top:15px; margin-bottom:20px;">
+            <h4 id="prod-form-title">Añadir Nuevo Producto</h4>
+            <input type="hidden" id="edit-prod-index" value="-1">
+            <input type="text" id="prod-name-input" class="admin-input" placeholder="Nombre">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <input type="text" id="prod-price-input" class="admin-input" placeholder="Precio">
+                <input type="text" id="prod-icon-input" class="admin-input" placeholder="Emoji o URL">
+            </div>
+            <textarea id="prod-desc-input" class="admin-input" placeholder="Descripción" style="height:60px;"></textarea>
+            <div style="display:flex; gap:10px;">
+                <button onclick="saveProduct()" class="admin-btn" style="background:#10b981; color:#fff;">Guardar Producto</button>
+                <button onclick="resetProductForm()" id="cancel-edit-btn" style="display:none; background:#ccc; border:none; padding:8px 16px; border-radius:10px; cursor:pointer;">Cancelar</button>
+            </div>
+        </div>
+        <div style="border-top:1px solid #eee; padding-top:15px;">
+            <h4>Productos Actuales</h4>
+            <div id="admin-products-list" style="display:grid; gap:8px; max-height:180px; overflow-y:auto;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const defaultProducts = [
+    {
+        "name": "Llaveros personalizados",
+        "desc": "Nombres, logos o diseños únicos.",
+        "price": "Desde 3 €",
+        "icon": "🔑"
+    },
+    {
+        "name": "Macetas 3D",
+        "desc": "Diseños originales para tu espacio.",
+        "price": "Desde 8 €",
+        "icon": "🪴"
+    },
+    {
+        "name": "Figuras y decoración",
+        "desc": "Piezas para decorar o regalar.",
+        "price": "Desde 5 €",
+        "icon": "🧸"
+    }
+];
+    let state = {
+        brand: "Ducksy 3D",
+        whatsapp: "34649381051",
+        adminPass: "1029",
+        products: JSON.parse(localStorage.getItem('duck_products')) || defaultProducts
+    };
+
+    function toggleMenu() {
+        const links = document.querySelector('.links');
+        links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function closeMobileMenu() {
+        if(window.innerWidth <= 768) {
+            document.querySelector('.links').style.display = 'none';
+        }
+    }
+
+    function initApp() {
+        const savedSettings = JSON.parse(localStorage.getItem('duck_settings'));
+        if(savedSettings) {
+            state.brand = savedSettings.brand || state.brand;
+            state.whatsapp = savedSettings.whatsapp || state.whatsapp;
+        }
+        document.getElementById('page-title').textContent = state.brand + ' — Tus ideas, hechas realidad';
+        document.getElementById('brand-text').textContent = state.brand;
+        document.getElementById('lead-brand').textContent = state.brand;
+        document.getElementById('footer-copy').textContent = '© 2026 ' + state.brand;
+        document.getElementById('contacto-email').href = 'mailto:' + state.whatsapp + '@ejemplo.com';
+        document.getElementById('contacto-wa').href = 'https://wa.me/' + state.whatsapp + '?text=Hola,%20vengo%20de%20la%20web.';
+        renderProducts();
+    }
+
+    function renderProducts() {
+        const grid = document.getElementById('products-grid');
+        grid.innerHTML = '';
+        state.products.forEach(p => {
+            let picContent = p.icon.startsWith('http') || p.icon.startsWith('data:') ? '<img src="' + p.icon + '">' : p.icon;
+            grid.innerHTML += '<article class="card"><div><div class="pic">' + picContent + '</div><h3>' + p.name + '</h3><p>' + p.desc + '</p></div><div><div class="price">' + p.price + '</div><a class="btn primary" style="width:100%; text-align:center; padding:10px; font-size:0.9rem;" href="https://wa.me/' + state.whatsapp + '?text=Hola,%20me%20interesa%2520el%2520producto:%2520*' + encodeURIComponent(p.name) + '*" target="_blank">Pedir por WhatsApp</a></div></article>';
+        });
+    }
+
+    function sendWhatsAppOrder(e) {
+        e.preventDefault();
+        const name = document.getElementById('cust-name').value;
+        const phone = document.getElementById('cust-phone').value;
+        const material = document.getElementById('cust-material').value;
+        const desc = document.getElementById('cust-desc').value;
+        window.open('https://wa.me/' + state.whatsapp + '?text=Hola,%20soy%20*' + encodeURIComponent(name) + '*%20(Tel:%20' + phone + ').%0AMaterial:%20' + encodeURIComponent(material) + '%0ADescripción:%20' + encodeURIComponent(desc), '_blank');
+    }
+
+    function openAdminModal() { document.getElementById('pass-modal').style.display = 'flex'; document.getElementById('admin-password-input').value = ''; }
+    function verifyAdmin() {
+        if(document.getElementById('admin-password-input').value === state.adminPass) {
+            document.getElementById('pass-modal').style.display = 'none';
+            document.getElementById('admin-panel-modal').style.display = 'flex';
+            loadAdminPanelData();
+        } else { alert('Contraseña incorrecta. (La contraseña es 1029)'); }
+    }
+    function closeModals() { document.getElementById('pass-modal').style.display = 'none'; document.getElementById('admin-panel-modal').style.display = 'none'; }
+    function loadAdminPanelData() {
+        document.getElementById('set-brand').value = state.brand;
+        document.getElementById('set-whatsapp').value = state.whatsapp;
+        renderAdminProductsList();
+    }
+    function saveSettings() {
+        state.brand = document.getElementById('set-brand').value;
+        state.whatsapp = document.getElementById('set-whatsapp').value;
+        localStorage.setItem('duck_settings', JSON.stringify({ brand: state.brand, whatsapp: state.whatsapp, adminPass: state.adminPass }));
+        alert('¡Ajustes guardados!'); initApp();
+    }
+    function saveProduct() {
+        const idx = parseInt(document.getElementById('edit-prod-index').value);
+        const name = document.getElementById('prod-name-input').value;
+        const price = document.getElementById('prod-price-input').value;
+        const icon = document.getElementById('prod-icon-input').value;
+        const desc = document.getElementById('prod-desc-input').value;
+        if(!name || !price || !icon) return alert('Rellena nombre, precio e icono.');
+        if(idx >= 0) state.products[idx] = { name, price, icon, desc };
+        else state.products.push({ name, price, icon, desc });
+        localStorage.setItem('duck_products', JSON.stringify(state.products));
+        resetProductForm(); renderAdminProductsList(); renderProducts();
+    }
+    function renderAdminProductsList() {
+        const list = document.getElementById('admin-products-list');
+        list.innerHTML = '';
+        state.products.forEach((p, idx) => {
+            list.innerHTML += '<div style="display:flex; justify-content:space-between; align-items:center; background:#f9f9f9; padding:8px 12px; border-radius:8px; border:1px solid #eee;"><span><b>' + p.icon + '</b> ' + p.name + '</span><div><button onclick="editProduct(' + idx + ')" style="background:#3b82f6; color:#fff; border:none; padding:4px 8px; border-radius:6px; cursor:pointer;"><i class="fa-solid fa-pen"></i></button> <button onclick="deleteProduct(' + idx + ')" style="background:#ef4444; color:#fff; border:none; padding:4px 8px; border-radius:6px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button></div></div>';
+        });
+    }
+    function editProduct(idx) {
+        const p = state.products[idx];
+        document.getElementById('edit-prod-index').value = idx;
+        document.getElementById('prod-name-input').value = p.name;
+        document.getElementById('prod-price-input').value = p.price;
+        document.getElementById('prod-icon-input').value = p.icon;
+        document.getElementById('prod-desc-input').value = p.desc;
+        document.getElementById('prod-form-title').textContent = "Editar Producto";
+        document.getElementById('cancel-edit-btn').style.display = 'inline-block';
+    }
+    function deleteProduct(idx) {
+        if(confirm('¿Eliminar?')) {
+            state.products.splice(idx, 1);
+            localStorage.setItem('duck_products', JSON.stringify(state.products));
+            renderAdminProductsList(); renderProducts();
+        }
+    }
+    function resetProductForm() {
+        document.getElementById('edit-prod-index').value = "-1";
+        document.getElementById('prod-name-input').value = '';
+        document.getElementById('prod-price-input').value = '';
+        document.getElementById('prod-icon-input').value = '';
+        document.getElementById('prod-desc-input').value = '';
+        document.getElementById('prod-form-title').textContent = "Añadir Nuevo Producto";
+        document.getElementById('cancel-edit-btn').style.display = 'none';
+    }
+    function exportUpdatedCode() {
+        alert('Esta opción está en tu versión local.');
+    }
+    window.onload = initApp;
+</script>
+</body>
+</html>
